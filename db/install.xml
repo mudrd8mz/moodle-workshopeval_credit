@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/workshop/eval/credit/db" VERSION="20130214" COMMENT="XMLDB file for Moodle mod/workshop/eval/credit"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="workshopeval_credit_settings" COMMENT="Per-workshop settings for the grading evaluation subplugin Participation credit.">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="workshopid"/>
+        <FIELD NAME="workshopid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" PREVIOUS="id" NEXT="lastmode"/>
+        <FIELD NAME="lastmode" TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false" COMMENT="The last mode used in the workshop." PREVIOUS="workshopid"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="fkuq_workshop"/>
+        <KEY NAME="fkuq_workshop" TYPE="foreign-unique" FIELDS="workshopid" REFTABLE="workshop" REFFIELDS="id" COMMENT="Every workshop can have only one settings record" PREVIOUS="primary"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
