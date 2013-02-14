@@ -28,4 +28,4 @@ $plugin->component  = 'workshopeval_credit';
 $plugin->release    = '2.4.0';
 $plugin->version    = 2013021300;
 $plugin->requires   = 2012120300; // Moodle 2.4.0
-$plugin->maturity   = MATURITY_ALPHA;
+$plugin->maturity   = MATURITY_BETA;
