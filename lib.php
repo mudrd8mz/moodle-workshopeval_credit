@@ -48,7 +48,7 @@ class workshop_credit_evaluation extends workshop_evaluation {
      */
     public function __construct(workshop $workshop) {
         $this->workshop = $workshop;
-        $this->settings = array('mode' => 'proportional'); // TODO load the most recent setting used in this workshop
+        $this->load_settings();
     }
 
     /**
@@ -59,8 +59,10 @@ class workshop_credit_evaluation extends workshop_evaluation {
      *
      * @return void
      */
-    public function update_grading_grades(stdclass $settings, $restrict=null) {
+    public function update_grading_grades(stdClass $settings, $restrict=null) {
         global $DB;
+
+        $this->save_settings($settings);
 
         $assessments = $this->make_assessments_map($restrict);
         $grades = $this->calculate_assessment_grades($assessments, $settings->mode);
@@ -87,7 +89,59 @@ class workshop_credit_evaluation extends workshop_evaluation {
         return new workshop_credit_evaluation_settings_form($actionurl, $customdata, 'post', '', $attributes);
     }
 
+    /**
+     * Delete all data related to a given workshop module instance
+     *
+     * @see workshop_delete_instance()
+     * @param int $workshopid id of the workshop module instance being deleted
+     * @return void
+     */
+    public static function delete_instance($workshopid) {
+        global $DB;
+
+        $DB->delete_records('workshopeval_credit_settings', array('workshopid' => $workshopid));
+    }
+
     /// Internal methods ///////////////////////////////////////////////////////
+
+    /**
+     * Loads the evaluation settings to be used in this workshop.
+     *
+     * @return stdClass
+     */
+    protected function load_settings() {
+        global $DB;
+
+        $this->settings = new stdClass();
+
+        $saved = $DB->get_record('workshopeval_credit_settings', array('workshopid' => $this->workshop->id));
+
+        if (isset($saved->lastmode)) {
+            $this->settings->mode = $saved->lastmode;
+        }
+
+        return $this->settings;
+    }
+
+    /**
+     * Saves the evaluation settings used in this workshop.
+     *
+     * @param stdClass $current current settings to be stored
+     */
+    protected function save_settings(stdClass $current) {
+        global $DB;
+
+        if (!isset($this->settings->mode)) {
+            $record = new stdClass();
+            $record->workshopid = $this->workshop->id;
+            $record->lastmode = $current->mode; // 'mode' is reserved XMLDB keyword.
+            $DB->insert_record('workshopeval_credit_settings', $record);
+
+        } else if ($this->settings->mode != $current->mode) {
+            $DB->set_field('workshopeval_credit_settings', 'lastmode', $current->mode,
+                    array('workshopid' => $this->workshop->id));
+        }
+    }
 
     /**
      * Prepares an overview of assessments allocated to reviewers in this workshop.
