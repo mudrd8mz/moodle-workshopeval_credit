@@ -24,6 +24,7 @@
  */
 
 $string['mode'] = 'Evaluation mode';
+$string['mode_desc'] = 'Default grading evaluation mode used by the _Participation credit_ method.';
 $string['mode_help'] = 'The mode determines how grades for assessment are calculated.
 
 * All or nothing - The reviewer must assess all allocated submissions in order to obtain the maximum grade; otherwise they receive a grade of zero.
