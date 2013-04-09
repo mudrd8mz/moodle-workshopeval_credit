@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component  = 'workshopeval_credit';
 $plugin->release    = 'DEV';
-$plugin->version    = 2013021400;
-$plugin->requires   = 2012120300; // Moodle 2.4.0
+$plugin->version    = 2013040900;
+$plugin->requires   = 2013040500; // Moodle v2.5.0-beta
 $plugin->maturity   = MATURITY_ALPHA;
