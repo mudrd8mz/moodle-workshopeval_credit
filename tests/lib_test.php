@@ -31,7 +31,7 @@ require_once($CFG->dirroot.'/mod/workshop/locallib.php');
 require_once($CFG->dirroot.'/mod/workshop/eval/credit/lib.php');
 
 
-class workshopeval_credit_testcase extends basic_testcase {
+class workshopeval_credit_testcase extends advanced_testcase {
 
     /** @var workshop instance emulation */
     protected $workshop;
@@ -40,13 +40,26 @@ class workshopeval_credit_testcase extends basic_testcase {
     protected $eval;
 
     protected function setUp() {
+        global $CFG;
+
         parent::setUp();
 
-        $cm = new stdClass();
-        $course = new stdClass();
-        $context = new stdClass();
-        $workshop = (object)array('id' => 22, 'evaluation' => 'best');
-        $this->workshop = new workshop($workshop, $cm, $course, $context);
+        if ($CFG->version >= 2014051200) {
+            // Since Moodle 2.7 we have data generators available.
+            $this->setAdminUser();
+            $course = $this->getDataGenerator()->create_course();
+            $workshop = $this->getDataGenerator()->create_module('workshop', array('course' => $course, 'evaluation' => 'best'));
+            $cm = get_coursemodule_from_instance('workshop', $workshop->id, $course->id, false, MUST_EXIST);
+            $this->workshop = new workshop($workshop, $cm, $course);
+
+        } else {
+            $cm = new stdClass();
+            $course = new stdClass();
+            $context = new stdClass();
+            $workshop = (object)array('id' => 22, 'evaluation' => 'best');
+            $this->workshop = new workshop($workshop, $cm, $course, $context);
+        }
+
         $this->eval = new testable_workshop_credit_evaluation($this->workshop);
     }
 
@@ -57,12 +70,16 @@ class workshopeval_credit_testcase extends basic_testcase {
     }
 
     public function test_calculate_assessment_grades_empty() {
+        $this->resetAfterTest(true);
+
         $this->assertEquals(array(), $this->eval->calculate_assessment_grades(array(), 'all'));
         $this->assertEquals(array(), $this->eval->calculate_assessment_grades(array(), 'proportional'));
         $this->assertEquals(array(), $this->eval->calculate_assessment_grades(array(), 'one'));
     }
 
     public function test_calculate_assessment_grades() {
+        $this->resetAfterTest(true);
+
         // Prepare a structure as returned by {@link workshop_credit_evaluation::make_assessments_map()}
         $assessments = array(
             4 => array(
