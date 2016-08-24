@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -80,7 +79,7 @@ class workshopeval_credit_testcase extends advanced_testcase {
     public function test_calculate_assessment_grades() {
         $this->resetAfterTest(true);
 
-        // Prepare a structure as returned by {@link workshop_credit_evaluation::make_assessments_map()}
+        // Prepare a structure as returned by {@link workshop_credit_evaluation::make_assessments_map()}.
         $assessments = array(
             4 => array(
                 102 => null,

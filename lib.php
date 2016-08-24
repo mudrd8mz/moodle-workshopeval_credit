@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -102,7 +101,7 @@ class workshop_credit_evaluation extends workshop_evaluation {
         $DB->delete_records('workshopeval_credit_settings', array('workshopid' => $workshopid));
     }
 
-    /// Internal methods ///////////////////////////////////////////////////////
+    // Internal methods start here.
 
     /**
      * Loads the evaluation settings to be used in this workshop.
@@ -134,7 +133,8 @@ class workshop_credit_evaluation extends workshop_evaluation {
         if (!isset($this->settings->mode)) {
             $record = new stdClass();
             $record->workshopid = $this->workshop->id;
-            $record->lastmode = $current->mode; // 'mode' is reserved XMLDB keyword.
+            // The 'mode' is a reserved XMLDB keyword.
+            $record->lastmode = $current->mode;
             $DB->insert_record('workshopeval_credit_settings', $record);
 
         } else if ($this->settings->mode != $current->mode) {
@@ -165,14 +165,15 @@ class workshop_credit_evaluation extends workshop_evaluation {
 
         $params = array('workshopid' => $this->workshop->id);
 
-        if (is_null($restrict)) {
-            // Update all reviewers - no more conditions.
-        } else if (!empty($restrict)) {
-            list($usql, $uparams) = $DB->get_in_or_equal($restrict, SQL_PARAMS_NAMED);
-            $sql .= " AND a.reviewerid $usql";
-            $params = array_merge($params, $uparams);
-        } else {
-            throw new coding_exception('Empty value is not a valid $restrict parameter value.');
+        // If the $restrict is null, then update all reviewers. Otherwise add conditions.
+        if (!is_null($restrict)) {
+            if (!empty($restrict)) {
+                list($usql, $uparams) = $DB->get_in_or_equal($restrict, SQL_PARAMS_NAMED);
+                $sql .= " AND a.reviewerid $usql";
+                $params = array_merge($params, $uparams);
+            } else {
+                throw new coding_exception('Empty value is not a valid $restrict parameter value.');
+            }
         }
 
         $rs = $DB->get_recordset_sql($sql, $params);
@@ -197,7 +198,7 @@ class workshop_credit_evaluation extends workshop_evaluation {
 
         $allocated = array(); // Number of allocated assessments per reviewer.
         $finished = array(); // Number of actually graded assessments per reviewer.
-        $grades = array(); // Suggested grade for assessment (0.00000 - 100.00000)
+        $grades = array(); // Suggested grade for assessment (0.00000 - 100.00000).
 
         foreach ($assessments as $reviewerid => $submissiongrades) {
             if (!is_array($submissiongrades) or empty($submissiongrades)) {
