@@ -1,9 +1,7 @@
 Participation credit
 ====================
 
-[![Build
-Status](https://travis-ci.org/mudrd8mz/moodle-workshopeval_credit.svg?branch=master)]
-(https://travis-ci.org/mudrd8mz/moodle-workshopeval_credit)
+[![Build Status](https://travis-ci.org/mudrd8mz/moodle-workshopeval_credit.svg?branch=master)](https://travis-ci.org/mudrd8mz/moodle-workshopeval_credit)
 
 Simple grading evaluation method for Moodle Workshop module that gives credit
 to peer-reviewers just for their participation in the activity without
