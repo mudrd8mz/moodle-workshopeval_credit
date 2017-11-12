@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the 'Participation credit' workshop evaluation method.
+ * Provides thes {@link workshopeval_credit_testcase} class.
  *
- * @package     workshopevaluation_credit
+ * @package     workshopeval_credit
  * @category    test
  * @copyright   2013 David Mudrak <david@moodle.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -30,6 +30,12 @@ require_once($CFG->dirroot.'/mod/workshop/locallib.php');
 require_once($CFG->dirroot.'/mod/workshop/eval/credit/lib.php');
 
 
+/**
+ * Unit tests for the 'Participation credit' workshop evaluation method.
+ *
+ * @copyright 2013 David Mudrak <david@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class workshopeval_credit_testcase extends advanced_testcase {
 
     /** @var workshop instance emulation */
@@ -38,6 +44,9 @@ class workshopeval_credit_testcase extends advanced_testcase {
     /** @var testable_workshop_credit_evaluation */
     protected $eval;
 
+    /**
+     * Prepare the test environment.
+     */
     protected function setUp() {
         global $CFG;
 
@@ -62,12 +71,18 @@ class workshopeval_credit_testcase extends advanced_testcase {
         $this->eval = new testable_workshop_credit_evaluation($this->workshop);
     }
 
+    /**
+     * Shut down the test environment.
+     */
     protected function tearDown() {
         $this->workshop = null;
         $this->eval = null;
         parent::tearDown();
     }
 
+    /**
+     * With no assessments, no grades are to be calculated.
+     */
     public function test_calculate_assessment_grades_empty() {
         $this->resetAfterTest(true);
 
@@ -76,6 +91,9 @@ class workshopeval_credit_testcase extends advanced_testcase {
         $this->assertEquals(array(), $this->eval->calculate_assessment_grades(array(), 'one'));
     }
 
+    /**
+     * Test the actual grading grade calculations.
+     */
     public function test_calculate_assessment_grades() {
         $this->resetAfterTest(true);
 
@@ -137,10 +155,20 @@ class workshopeval_credit_testcase extends advanced_testcase {
 
 /**
  * Provides access to protected methods we want to test.
+ *
+ * @copyright 2013 David Mudrak <david@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class testable_workshop_credit_evaluation extends workshop_credit_evaluation {
 
-    public function calculate_assessment_grades(array $assessments, $mode) {
+    /**
+     * Expose parent's protected method so that it can be tested by calling it directly.
+     *
+     * @param array $assessments
+     * @param string $mode
+     * @return array
+     */
+    public function calculate_assessment_grades(array $assessments, $mode) { // @codingStandardsIgnoreLine overriding expected
         return parent::calculate_assessment_grades($assessments, $mode);
     }
 }

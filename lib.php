@@ -30,6 +30,9 @@ require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * Defines the computation logic of the grading evaluation subplugin
+ *
+ * @copyright 2013 David Mudrak <david@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class workshop_credit_evaluation extends workshop_evaluation {
 
@@ -77,6 +80,7 @@ class workshop_credit_evaluation extends workshop_evaluation {
     /**
      * Returns an instance of the form to define evaluation settings.
      *
+     * @param moodle_url $actionurl The URL to submit the settings form to.
      * @return workshop_credit_evaluation_settings_form
      */
     public function get_settings_form(moodle_url $actionurl=null) {
@@ -249,6 +253,9 @@ class workshop_credit_evaluation extends workshop_evaluation {
 
 /**
  * Represents the settings form for this plugin.
+ *
+ * @copyright 2013 David Mudrak <david@moodle.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class workshop_credit_evaluation_settings_form extends workshop_evaluation_settings_form {
 
