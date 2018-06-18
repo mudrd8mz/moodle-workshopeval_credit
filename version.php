@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component  = 'workshopeval_credit';
-$plugin->release    = '3.0.2';
-$plugin->version    = 2017111200;
+$plugin->release    = '3.1.0';
+$plugin->version    = 2018061800;
 $plugin->requires   = 2014051200;
 $plugin->maturity   = MATURITY_STABLE;
