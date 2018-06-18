@@ -18,6 +18,7 @@
  * Strings for the Participation credit workshop evaluator
  *
  * @package    workshopeval_credit
+ * @category   string
  * @copyright  2013 David Mudrak <david@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,3 +34,4 @@ $string['modeall'] = 'All or nothing';
 $string['modeone'] = 'At least one';
 $string['modeproportional'] = 'Proportional';
 $string['pluginname'] = 'Participation credit';
+$string['privacy:metadata'] = 'Participation credit does not store any personal data';
