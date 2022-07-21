@@ -47,7 +47,7 @@ class workshopeval_credit_testcase extends advanced_testcase {
     /**
      * Prepare the test environment.
      */
-    protected function setUp() {
+    protected function setUp(): void {
         global $CFG;
 
         parent::setUp();
@@ -74,7 +74,7 @@ class workshopeval_credit_testcase extends advanced_testcase {
     /**
      * Shut down the test environment.
      */
-    protected function tearDown() {
+    protected function tearDown(): void {
         $this->workshop = null;
         $this->eval = null;
         parent::tearDown();
